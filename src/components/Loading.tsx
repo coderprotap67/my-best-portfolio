@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./styles/Loading.css";
 import { useLoading } from "../context/LoadingProvider";
-import Marquee from "react-fast-marquee";
+
+import Marquee from "react-fast-marquee/dist/index";
 
 const Loading = ({ percent }: { percent: number }) => {
   const { setIsLoading } = useLoading();
@@ -99,8 +100,6 @@ const Loading = ({ percent }: { percent: number }) => {
 };
 
 export default Loading;
-
-// setProgress ফাংশনটি আগের মতোই থাকবে
 export const setProgress = (setLoading: (value: number) => void) => {
   let percent = 0;
   let interval = setInterval(() => {
