@@ -90,8 +90,7 @@ const WhatIDo = () => {
               <h3>DEVELOP</h3>
               <h4>Description</h4>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-                quia aliquid laboriosam ducimus sit molestiae.
+                i am a full stack developer with a passion for creating interactive and visually appealing web applications. I specialize in front-end development, utilizing technologies such as JavaScript, TypeScript, Three.js, React, and CSS to build engaging user interfaces. Additionally, I have experience with back-end development using Node.js, Next.js, Express.js, PHP, and MySQL to create robust and scalable applications. I am dedicated to delivering high-quality code and continuously expanding my skill set to stay up-to-date with the latest industry trends.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
@@ -131,8 +130,7 @@ const WhatIDo = () => {
               <h3>DESIGN</h3>
               <h4>Description</h4>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-                quia aliquid laboriosam ducimus sit molestiae
+                i build engaging user interfaces. Additionally, I have experience with back-end development using Node.js, Next.js, Express.js, PHP, and MySQL to create robust and scalable applications. I am dedicated to delivering high-quality code and continuously expanding my skill set to stay up-to-date with the latest industry trends.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">

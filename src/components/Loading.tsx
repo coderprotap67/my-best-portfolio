@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./styles/Loading.css";
 import { useLoading } from "../context/LoadingProvider";
-
 import Marquee from "react-fast-marquee";
 
 const Loading = ({ percent }: { percent: number }) => {
@@ -10,37 +9,46 @@ const Loading = ({ percent }: { percent: number }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  if (percent >= 100) {
-    setTimeout(() => {
-      setLoaded(true);
-      setTimeout(() => {
-        setIsLoaded(true);
-      }, 1000);
-    }, 600);
-  }
+
+  
+  useEffect(() => {
+    if (percent >= 100) {
+      const timer1 = setTimeout(() => {
+        setLoaded(true);
+        const timer2 = setTimeout(() => {
+          setIsLoaded(true);
+        }, 1000);
+        return () => clearTimeout(timer2);
+      }, 600);
+      return () => clearTimeout(timer1);
+    }
+  }, [percent]);
+
+
 
   useEffect(() => {
-    import("./utils/initialFX").then((module) => {
-      if (isLoaded) {
+    if (isLoaded) {
+      import("./utils/initialFX").then((module) => {
         setClicked(true);
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           if (module.initialFX) {
             module.initialFX();
           }
           setIsLoading(false);
         }, 900);
-      }
-    });
-  }, [isLoaded]);
+        return () => clearTimeout(timer);
+      });
+    }
+  }, [isLoaded, setIsLoading]);
 
-  function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const { currentTarget: target } = e;
     const rect = target.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     target.style.setProperty("--mouse-x", `${x}px`);
     target.style.setProperty("--mouse-y", `${y}px`);
-  }
+  };
 
   return (
     <>
@@ -48,7 +56,7 @@ const Loading = ({ percent }: { percent: number }) => {
         <a href="/#" className="loader-title" data-cursor="disable">
           Logo
         </a>
-        <div className={`loaderGame ${clicked && "loader-out"}`}>
+        <div className={`loaderGame ${clicked ? "loader-out" : ""}`}>
           <div className="loaderGame-container">
             <div className="loaderGame-in">
               {[...Array(27)].map((_, index) => (
@@ -67,11 +75,11 @@ const Loading = ({ percent }: { percent: number }) => {
           </Marquee>
         </div>
         <div
-          className={`loading-wrap ${clicked && "loading-clicked"}`}
-          onMouseMove={(e) => handleMouseMove(e)}
+          className={`loading-wrap ${clicked ? "loading-clicked" : ""}`}
+          onMouseMove={handleMouseMove}
         >
           <div className="loading-hover"></div>
-          <div className={`loading-button ${loaded && "loading-complete"}`}>
+          <div className={`loading-button ${loaded ? "loading-complete" : ""}`}>
             <div className="loading-container">
               <div className="loading-content">
                 <div className="loading-content-in">
@@ -92,9 +100,9 @@ const Loading = ({ percent }: { percent: number }) => {
 
 export default Loading;
 
+// setProgress ফাংশনটি আগের মতোই থাকবে
 export const setProgress = (setLoading: (value: number) => void) => {
-  let percent: number = 0;
-
+  let percent = 0;
   let interval = setInterval(() => {
     if (percent <= 50) {
       let rand = Math.round(Math.random() * 5);
@@ -112,13 +120,8 @@ export const setProgress = (setLoading: (value: number) => void) => {
     }
   }, 100);
 
-  function clear() {
-    clearInterval(interval);
-    setLoading(100);
-  }
-
-  function loaded() {
-    return new Promise<number>((resolve) => {
+  return {
+    loaded: () => new Promise<number>((resolve) => {
       clearInterval(interval);
       interval = setInterval(() => {
         if (percent < 100) {
@@ -129,7 +132,11 @@ export const setProgress = (setLoading: (value: number) => void) => {
           clearInterval(interval);
         }
       }, 2);
-    });
-  }
-  return { loaded, percent, clear };
+    }),
+    percent,
+    clear: () => {
+      clearInterval(interval);
+      setLoading(100);
+    }
+  };
 };

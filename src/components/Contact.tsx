@@ -32,7 +32,7 @@ const Contact = () => {
               Github <MdArrowOutward />
             </a>
             <a
-              href="https://www.linkedin.com/in/protap-chakma-0b2a6b24a/"
+              href="https://www.linkedin.com/in/protap-chakma-53185630a/"
               target="_blank"
               data-cursor="disable"
               className="contact-social"
@@ -40,7 +40,7 @@ const Contact = () => {
               Linkedin <MdArrowOutward />
             </a>
             <a
-              href="https://x.com"
+              href="https://x.com/protap_chakma"
               target="_blank"
               data-cursor="disable"
               className="contact-social"
@@ -48,7 +48,7 @@ const Contact = () => {
               Twitter <MdArrowOutward />
             </a>
             <a
-              href="https://www.instagram.com"
+              href="https://www.instagram.com/protap_chakma/"
               target="_blank"
               data-cursor="disable"
               className="contact-social"
@@ -58,7 +58,7 @@ const Contact = () => {
           </div>
           <div className="contact-box">
             <h2>
-              Designed and Developed <br /> by <span>Protap Chakma</span>
+              Designed and Developed <br /> by <span>Protap</span>
             </h2>
             <h5>
               <MdCopyright /> 2026 Protap Chakma. All rights reserved.
