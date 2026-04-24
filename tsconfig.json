@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ESNext",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"], // "DOM.Iterable" যোগ করা হয়েছে
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+
+    /* JSX configuration - এটি না থাকলে JSX এরর দিবে */
+    "jsx": "react-jsx", 
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false, // এটি true থাকলে অনেক সময় import এ সমস্যা হয়, false করে দেখুন
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true, // টাইপ সেফটির জন্য এটি যোগ করা ভালো
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}
