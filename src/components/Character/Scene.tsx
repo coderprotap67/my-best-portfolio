@@ -15,14 +15,13 @@ import { setProgress } from "../Loading";
 
 const Scene = () => {
   const canvasDiv = useRef<HTMLDivElement | null>(null);
-  const hoverDivRef = useRef<HTMLDivElement | null>(null); // Nullable করা হয়েছে
+  const hoverDivRef = useRef<HTMLDivElement | null>(null);
   const sceneRef = useRef(new THREE.Scene());
   const { setLoading } = useLoading();
 
   const [character, setChar] = useState<THREE.Object3D | null>(null);
 
   useEffect(() => {
-    // কেন এই চেক? canvasDiv.current ছাড়া Three.js রেন্ডারার বসানো সম্ভব নয়।
     if (!canvasDiv.current) return;
 
     const currentCanvas = canvasDiv.current;
@@ -34,6 +33,7 @@ const Scene = () => {
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
+      precision: "mediump",
     });
     renderer.setSize(container.width, container.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // পারফরম্যান্স অপ্টিমাইজেশন

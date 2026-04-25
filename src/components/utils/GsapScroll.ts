@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import gsap from "gsap";
+// gsap.config({ trialWarn: false });
+
 
 export function setCharTimeline(
   character: THREE.Object3D<THREE.Object3DEventMap> | null,
