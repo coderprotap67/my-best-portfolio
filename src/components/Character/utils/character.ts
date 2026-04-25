@@ -10,48 +10,54 @@ const setCharacter = (
 ) => {
   const loader = new GLTFLoader();
   const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath("/draco/");
+  // নিশ্চিত করুন public/draco ফোল্ডারে ডিকোডার ফাইলগুলো আছে
+  dracoLoader.setDecoderPath("/draco/"); 
   loader.setDRACOLoader(dracoLoader);
 
   const loadCharacter = () => {
     return new Promise<GLTF | null>(async (resolve, reject) => {
       try {
-        const encryptedBlob = await decryptFile(
+        // ডিক্রিপ্ট করা হচ্ছে
+        const decryptedBuffer = await decryptFile(
           "/models/character.enc",
           "Character3D#@"
         );
-        const blobUrl = URL.createObjectURL(new Blob([encryptedBlob]));
+        
+        const blobUrl = URL.createObjectURL(new Blob([decryptedBuffer]));
 
-        let character: THREE.Object3D;
         loader.load(
           blobUrl,
           async (gltf) => {
-            character = gltf.scene;
+            const character = gltf.scene;
             await renderer.compileAsync(character, camera, scene);
+            
             character.traverse((child: any) => {
               if (child.isMesh) {
-                const mesh = child as THREE.Mesh;
                 child.castShadow = true;
                 child.receiveShadow = true;
-                mesh.frustumCulled = true;
+                child.frustumCulled = true;
               }
             });
-            resolve(gltf);
+
+            scene.add(character); // মডেলটি সিনে অ্যাড করা হলো
             setCharTimeline(character, camera);
             setAllTimeline();
-            character!.getObjectByName("footR")!.position.y = 3.36;
-            character!.getObjectByName("footL")!.position.y = 3.36;
+
+            // মেমোরি ক্লিনআপ
+            URL.revokeObjectURL(blobUrl); 
             dracoLoader.dispose();
+            
+            resolve(gltf);
           },
           undefined,
           (error) => {
-            console.error("Error loading GLTF model:", error);
+            console.error("GLTF Load Error:", error);
             reject(error);
           }
         );
       } catch (err) {
+        console.error("Character loading failed:", err);
         reject(err);
-        console.error(err);
       }
     });
   };

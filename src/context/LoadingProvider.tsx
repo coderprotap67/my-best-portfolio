@@ -4,12 +4,12 @@ import {
   useContext,
   useState,
 } from "react";
-import Loading from "../components/Loading";
 
 interface LoadingType {
   isLoading: boolean;
   setIsLoading: (state: boolean) => void;
   setLoading: (percent: number) => void;
+  loading: number;
 }
 
 export const LoadingContext = createContext<LoadingType | null>(null);
@@ -20,10 +20,9 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <LoadingContext.Provider
-      value={{ isLoading, setIsLoading, setLoading }}
+      value={{ isLoading, setIsLoading, setLoading, loading }}
     >
-      {isLoading && <Loading percent={loading} />}
-      <main className="main-body">{children}</main>
+      {children}
     </LoadingContext.Provider>
   );
 };
@@ -32,12 +31,8 @@ export const useLoading = () => {
   const context = useContext(LoadingContext);
 
   if (!context) {
-    throw new Error("useLoading must be used within a LoadingProvider");
+    throw new Error("useLoading must be used within LoadingProvider");
   }
 
   return context;
 };
-
-
-
-
